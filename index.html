@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speedometer Gauge Chart</title>
+    <!-- Include gauge.js library -->
+    <script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
+</head>
+
+<!-- https://bernii.github.io/gauge.js/#! -->
+
+<body>
+    <canvas id="gauge"></canvas>
+
+    <script>
+
+        function calculatePercentage(value, total) {
+            return (value / total) * 100;
+        }
+
+
+
+        // Get the canvas element
+        var canvas = document.getElementById("gauge");
+        // Create a new Gauge object
+        var gauge = new Gauge(canvas).setOptions({
+            // Options for the gauge
+            angle: 0, // The span of the gauge arc
+            lineWidth: 0.3, // The line thickness
+            radiusScale: 0.9, // Relative radius
+            pointer: {
+                length: 0.42, // // Relative to gauge radius
+                strokeWidth: 0.029, // The thickness
+                color: '#000000' // Fill color
+            },
+            limitMax: true,     // If false, max value increases automatically if value > maxValue
+            limitMin: true,     // If true, the min value of the gauge will be fixed
+            colorStart: '#6F6EA0',   // Colors
+            colorStop: '#C0C0DB',    // just experiment with them
+            strokeColor: '#EEEEEE',  // to see which ones work best for you
+            generateGradient: true,
+            highDpiSupport: true,     // High resolution support
+            // renderTicks is Optional
+            renderTicks: {
+              divisions: 12,
+              divWidth: 0.3,
+              divLength: 0.41,
+              divColor: '#333333',
+              subDivisions: 0,
+              subLength: 0.14,
+              subWidth: 3.1,
+              subColor: '#ffffff'
+            },
+            staticZones: [
+                { strokeStyle: "#F03E3E", min: 0, max: 25 }, // Red from 70 to 80
+                { strokeStyle: "#FFDD00", min: 25, max: 50 }, // Yellow 80 to 90
+                { strokeStyle: "#90D26D", min: 50, max: 75 }, // Green 90 to 100
+                { strokeStyle: "#30B32D", min: 75, max: 100 }, // Green 90 to 100
+            ],
+            staticLabels: {
+                font: "10px sans-serif",  // Specifies font
+                labels: [0, 25, 50, 75, 100],  // Print labels at these values
+                color: "#000000",  // Optional: Label text color
+                fractionDigits: 0  // Optional: Numerical precision. 0=round off.
+            },
+        });
+        // Set max value
+        gauge.maxValue = 100;
+        // Set min value
+        gauge.setMinValue(0);
+        // Set animation speed
+        gauge.animationSpeed = 10;
+        // Set initial value
+
+        var bookingsMade = 5000;
+        var totalTarget = 10000;
+        var percentage = calculatePercentage(bookingsMade, totalTarget);
+        gauge.set(percentage);
+
+
+        // gauge.set(52);
+    </script>
+</body>
+
+</html>
